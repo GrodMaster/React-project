@@ -27,16 +27,27 @@ function App() {
 
   const onHandleSearch = (e)=>{
       e.preventDefault()
+      setLoading(true)
       fetch(movieAPI + temr)
       .then(res=>res.json())
-      .then(res =>setMovie(res.results))
+      .then(res =>{
+        if(res.results.length !== 0){
+          setMovie(res.results)
+        }else{
+          setError(true)
+        }
+        setLoading(false)})
       setTerm('')
   }
 
   const onNotFound = ()=>{
+    setLoading(true)
     fetch(movieTop)
     .then(res=>res.json())
-    .then(res =>setMovie(res.items))
+    .then(res =>{
+      setMovie(res.items)
+      setError(false)
+      setLoading(false)})
 }
 
 
